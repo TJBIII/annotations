@@ -4,7 +4,7 @@
 2. Create simple user story out of requirements.
 3. XML: NSS focused on JSON so I read/researched a little to refamiliarize myself with the differences.
 4. Looked at the jQuery docs to see what methods might be useful/inspire a solution.
-5. General brainstorming and write down questions.
+5. General brainstorming and write down questions/trouble points.
 6. Planning general program flow and identify "milestones".
 7. Explore some possible trouble points (so I don't waste time doing a bunch of work that will have to be reversed if I hit a major roadblock).
 
@@ -47,6 +47,10 @@ As a user (data analyst), I want to...
 ### Trouble points:
 
 1.  Picking a new word (or phrase) to annotate
-  * Difficulty: Dependent on how annotations are represented on the DOM. Can't use click events on a word unless I put each word into it's own element, which then makes dealing with phrases difficult.
+  * Difficulty: Dependent on how annotations are represented on the DOM. Right now it is easy to edit or delete an annotation since it is wrapped in an element. Can't use click events on adding a new annotation unless I put each word into it's own element, which then makes dealing with phrases difficult.
   * Possible solution: Have the user fill out a form where they type in the word or phrase they want to annotate and the category. Can then use a substring search to add all of the new annotations.
+
+2. JSON export if start and end indices are needed
+  * Difficulty: Extracting annotation indices out of text once annotations are put in may be messy/prone to off-by-1 errors.
+  * Possible solution: Keep a copy of the text without any annotations in it for getting the positions. Build up a JS object and keep updating it when annotations are added/edited/deleted. Simple to JSON.stringify() and log to console.
 
