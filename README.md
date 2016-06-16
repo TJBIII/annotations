@@ -27,7 +27,9 @@
   * Place text with annotations on the DOM
 
 3. Handle add, edit, and delete for annotations.
-  * Details will depend on implementation and setup in step 2.
+  * Click and drag across text to add annotation. Prompt will appear asking for label/category
+  * Listen for click event on anchor tag and allow user to change text through prompt
+  * If prompt input is empty string then delete the annotation, else update the annotation category
 
 4. Export annotations as JSON to console
 
