@@ -40,6 +40,7 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
       charSeqStart,
       charSeqEnd;
 
+
   /*
     assumes the annotations are in order to begin with. more robust way would be to sort first. also, a `for(let i = arr.length - 1, i >= 0; i--)` loop is probably faster than reversing in place
   */
@@ -63,6 +64,7 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
 
   });
 
+
   /*
     use preformatted text tag to preserve whitespace
   */
@@ -71,23 +73,35 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
 
   $('#textEl').append(pre);
 
+
   /* 
-    TODO: on click of annotated word we will give delete and edit options 
+    Handles delete and edit options
   */
-  $('.highlight').click( event => {
-    let categoryEl = event.target.nextSibling;
-    //strip brackets
-    let category = categoryEl.innerHTML.replace(/[\[\]]/g, "");
-    console.log("category clicked", category);
-    let newCategory = prompt("Edit or delete the annotation category:", category);
+  $('#textEl').click( event => {
 
-    //delete case
-    if (newCategory.length === 0){
+    if (event.target.className.indexOf("highlight") >= 0){
+      let categoryEl = event.target.nextSibling;
 
-    } else {
-      //edit case
-      newCategory = newCategory.toUpperCase();
-      categoryEl.innerHTML = `[${newCategory}]`
+      //strip brackets
+      let category = categoryEl.innerHTML.replace(/[\[\]]/g, "");
+      let newCategory = prompt("Hit 'backspace' and then 'enter' to delete, or type in a new annotation label:", category);
+
+      if (newCategory.length === 0){
+        //delete case
+        console.log("deleting");
+        let text = event.target.innerText;
+
+        //remove annotation
+        event.target.nextSibling.remove();
+
+        //replace anchor tag element with text
+        event.target.outerHTML = text;
+
+      } else {
+        //edit case
+        newCategory = newCategory.toUpperCase();
+        categoryEl.innerHTML = `[${newCategory}]`
+      }
     }
 
   });
@@ -126,26 +140,27 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
 */
 function replaceSelection(replacementHTML) {
 
-    let sel,
-        range,
-        fragment;
+  let sel,
+      range,
+      fragment;
 
-    if (typeof window.getSelection != "undefined") {
-        sel = window.getSelection();
-        // Test that the Selection object contains at least one Range
-        if (sel.getRangeAt && sel.rangeCount) {
-            // Get the first Range (only Firefox supports more than one)
-            range = window.getSelection().getRangeAt(0);
+  if (typeof window.getSelection != "undefined") {
+    sel = window.getSelection();
+    // Test that the Selection object contains at least one Range
+    if (sel.getRangeAt && sel.rangeCount) {
+      // Get the first Range (only Firefox supports more than one)
+      range = window.getSelection().getRangeAt(0);
 
-            range.deleteContents();
+      range.deleteContents();
 
-            // Create a DocumentFragment to insert and populate it with HTML
-            fragment = range.createContextualFragment(replacementHTML);
+      // Create a DocumentFragment to insert and populate it with HTML
+      fragment = range.createContextualFragment(replacementHTML);
 
-            let firstInsertedNode = fragment.firstChild;
-            let lastInsertedNode = fragment.lastChild;
-            range.insertNode(fragment);
-        }
+      let firstInsertedNode = fragment.firstChild,
+          lastInsertedNode = fragment.lastChild;
+
+      range.insertNode(fragment);
     }
+  }
 }
 
