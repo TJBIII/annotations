@@ -1,4 +1,4 @@
-### How I approached the problem:
+### How I initially approached the problem:
 
 1. Read through all requirements/constraints several times.
 2. Create simple user story out of requirements.
@@ -11,7 +11,7 @@
 
 
 
-### Basic idea/plan:
+### Basic idea/plan (get MVP working then refactor):
 
 1. Setup:
   * Setup: project workspace, touch files, git init, etc

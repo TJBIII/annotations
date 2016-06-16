@@ -1,0 +1,10 @@
+.highlight {
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+
+.category {
+  color: blue;
+  background-color: #aaa;
+}
