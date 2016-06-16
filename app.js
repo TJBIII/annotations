@@ -75,7 +75,64 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
     TODO: on click of annotated word we will give delete and edit options 
   */
   $('.highlight').click( event => {
-    console.log(event.target.innerHTML);
+    console.log(event);
+    
+  });
+
+
+  /*
+    When a user selects text prompt them for the annotation (category) to add and add to DOM
+  */
+  $('#textEl').mouseup( event => {
+    let s =  window.getSelection().getRangeAt(0);
+
+    let startOffset = s.startOffset,
+        endOffset = s.endOffset,
+        selectedText = document.getSelection().toString();
+
+
+    if (startOffset !== endOffset) {
+      let newAnnotation = window.prompt(`You selected: '${selectedText}'. Type in your category label and click OK.`);
+
+      if (newAnnotation !== null && newAnnotation.length > 0){
+        //uppercase here so we dont get error if it is null
+        newAnnotation = newAnnotation.toUpperCase();
+        replaceSelection(`<a class="highlight">${selectedText}</a><span class="category">[${newAnnotation}]</span>`);
+      }
+    }
+
   });
 
 });
+
+
+/*
+  modified from here: http://stackoverflow.com/questions/7991474/calculate-position-of-selected-text-javascript-jquery
+
+  replaces the selected range with replacementHTML
+*/
+function replaceSelection(replacementHTML) {
+
+    let sel,
+        range,
+        fragment;
+
+    if (typeof window.getSelection != "undefined") {
+        sel = window.getSelection();
+        // Test that the Selection object contains at least one Range
+        if (sel.getRangeAt && sel.rangeCount) {
+            // Get the first Range (only Firefox supports more than one)
+            range = window.getSelection().getRangeAt(0);
+
+            range.deleteContents();
+
+            // Create a DocumentFragment to insert and populate it with HTML
+            fragment = range.createContextualFragment(replacementHTML);
+
+            let firstInsertedNode = fragment.firstChild;
+            let lastInsertedNode = fragment.lastChild;
+            range.insertNode(fragment);
+        }
+    }
+}
+

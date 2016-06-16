@@ -49,6 +49,7 @@ As a user (data analyst), I want to...
 1.  Picking a new word (or phrase) to annotate
   * Difficulty: Dependent on how annotations are represented on the DOM. Right now it is easy to edit or delete an annotation since it is wrapped in an element. Can't use click events on adding a new annotation unless I put each word into it's own element, which then makes dealing with phrases difficult.
   * Possible solution: Have the user fill out a form where they type in the word or phrase they want to annotate and the category. Can then use a substring search to add all of the new annotations.
+  * Resolution: window.getSelection() or similar jQuery method (for better browser support)
 
 2. JSON export if start and end indices are needed
   * Difficulty: Extracting annotation indices out of text once annotations are put in may be messy/prone to off-by-1 errors.
