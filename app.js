@@ -75,8 +75,21 @@ $.when(getText(), getAnnotations()).done( (getTextResponse, getAnnotationsRespon
     TODO: on click of annotated word we will give delete and edit options 
   */
   $('.highlight').click( event => {
-    console.log(event);
-    
+    let categoryEl = event.target.nextSibling;
+    //strip brackets
+    let category = categoryEl.innerHTML.replace(/[\[\]]/g, "");
+    console.log("category clicked", category);
+    let newCategory = prompt("Edit or delete the annotation category:", category);
+
+    //delete case
+    if (newCategory.length === 0){
+
+    } else {
+      //edit case
+      newCategory = newCategory.toUpperCase();
+      categoryEl.innerHTML = `[${newCategory}]`
+    }
+
   });
 
 
